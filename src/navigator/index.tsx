@@ -9,11 +9,11 @@ import {
     HeaderStyleInterpolators,
     CardStyleInterpolators,
 } from '@react-navigation/stack';
-import Home from '../pages/home';
+import Tabs from '../pages/Tabs';
 import Detail from '../pages/detail';
 import Mine from '../pages/mine';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
-import MiniPlayer from '../components/MiniPlayer';
+// import MiniPlayer from '../components/MiniPlayer';
 import HeaderTitle from '../components/HeaderTitle';
 import HeaderBackground from '../components/HeaderBackground';
 import HeaderRight from '../components/HeaderRight';
@@ -23,7 +23,7 @@ import Icon from '../components/iconfont';
  * Stack 式的导航
  */
 export type RootStackParamList = {
-    Home: undefined;
+    Tabs: undefined;
     Mine: undefined;
 };
 const RootStack = createStackNavigator<RootStackParamList>();
@@ -56,8 +56,8 @@ const RootStackScreen = () => {
                 },
             }}>
             <RootStack.Screen
-                name="Home"
-                component={Home}
+                name="Tabs"
+                component={Tabs}
                 options={{
                     headerTitle: HeaderTitle,
                     headerBackground: HeaderBackground,
@@ -132,7 +132,7 @@ const Navigator: React.FC = () => {
     return (
         <NavigationContainer ref={navigationRef}>
             <ModalStackScreen />
-            <MiniPlayer navigationRef={navigationRef} />
+            {/* <MiniPlayer navigationRef={navigationRef} /> */}
         </NavigationContainer>
     );
 };
