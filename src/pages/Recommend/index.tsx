@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { Text, View, FlatList, StyleSheet } from 'react-native';
+import React, { useEffect } from 'react';
+import { Text, View, FlatList, StyleSheet, SafeAreaView } from 'react-native';
 import ListTitle from './ListTitle';
 import Carousel from './Carousel';
 import request from '../../utils/axios';
+import { Banners } from '../../models/banner';
+import { useSetRecoilState } from 'recoil';
+import { bannersState } from '../../state';
 
 const DATA = [
     {
@@ -28,27 +31,34 @@ function Item({ title }: { title: String }) {
 }
 
 const Recommend = () => {
-    const [str, setStr] = useState('');
+    const setBanners = useSetRecoilState(bannersState);
 
     useEffect(() => {
-        request.get('/search?keywords=海阔天空').then((res) => {
-            setStr(JSON.stringify(res.data));
-        });
+        async function fetchData() {
+            const res = await request.get<Banners>('/banner?type=2');
+            console.log(res);
+            if (res.data.code === 200) {
+                setBanners(res.data.banners);
+            }
+        }
+        fetchData();
     }, []);
 
     return (
-        <FlatList
-            style={styles.list}
-            ListHeaderComponent={() => (
-                <>
-                    <Carousel str={str} />
-                    <ListTitle />
-                </>
-            )}
-            data={DATA}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => <Item title={item.title} />}
-        />
+        <SafeAreaView>
+            <FlatList
+                style={styles.list}
+                ListHeaderComponent={() => (
+                    <>
+                        <Carousel />
+                        <ListTitle />
+                    </>
+                )}
+                data={DATA}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item }) => <Item title={item.title} />}
+            />
+        </SafeAreaView>
     );
 };
 
