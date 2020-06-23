@@ -12,11 +12,12 @@ import {
 import Home from '../pages/home';
 import Detail from '../pages/detail';
 import Mine from '../pages/mine';
-import { Platform, StatusBar, StyleSheet } from 'react-native';
+import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import MiniPlayer from '../components/MiniPlayer';
 import HeaderTitle from '../components/HeaderTitle';
 import HeaderBackground from '../components/HeaderBackground';
 import HeaderRight from '../components/HeaderRight';
+import Icon from '../components/iconfont';
 
 /**
  * Stack 式的导航
@@ -58,7 +59,14 @@ const RootStackScreen = () => {
                 name="Home"
                 component={Home}
                 options={{
-                    headerTitle: '首页',
+                    headerTitle: HeaderTitle,
+                    headerBackground: HeaderBackground,
+                    headerRight: () => <HeaderRight />,
+                    headerBackImage: () => (
+                        <View style={styles.fullScreenBack}>
+                            <Icon name="back" size={22} color={'#ffcd32'} />
+                        </View>
+                    ),
                 }}
             />
             <RootStack.Screen
@@ -83,18 +91,37 @@ export type ModalStackParamList = {
 const ModalStack = createStackNavigator<ModalStackParamList>();
 export type ModalStackNavigation = StackNavigationProp<ModalStackParamList>;
 
+const styles = StyleSheet.create({
+    fullScreenBack: {
+        padding: 9,
+        transform: [{ rotateZ: '-90deg' }],
+    },
+});
+
 const ModalStackScreen = () => {
     return (
         <ModalStack.Navigator
             mode="modal"
-            headerMode="screen"
+            headerMode="none"
             screenOptions={{
-                headerTitle: HeaderTitle,
-                headerBackground: HeaderBackground,
-                headerRight: () => <HeaderRight />,
+                header: undefined,
+                headerBackTitleVisible: false,
+                headerBackImage: () => (
+                    <View style={styles.fullScreenBack}>
+                        <Icon name="back" size={22} color={'#ffcd32'} />
+                    </View>
+                ),
             }}>
-            <ModalStack.Screen name="Root" component={RootStackScreen} />
-            <ModalStack.Screen name="Detail" component={Detail} />
+            <ModalStack.Screen
+                name="Root"
+                component={RootStackScreen}
+                options={{ header: undefined }}
+            />
+            <ModalStack.Screen
+                name="Detail"
+                component={Detail}
+                options={{ headerTitle: undefined, headerRight: undefined }}
+            />
         </ModalStack.Navigator>
     );
 };

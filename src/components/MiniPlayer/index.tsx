@@ -14,14 +14,14 @@ const MiniPlayer: React.FC<IProps> = (props) => {
     const { navigationRef } = props;
     const playerFullScreen = useRecoilValue<boolean>(playerFullScreenState);
 
-    return !playerFullScreen ? null : (
+    return playerFullScreen ? null : (
         <SafeAreaView style={styles.wrapper}>
             <TouchableOpacity
                 onPress={() => {
                     navigationRef.current?.navigate('Detail');
                 }}>
                 <View style={styles.miniPlayer}>
-                    <Text>{`bool: ${playerFullScreen}`}</Text>
+                    <Text>{`playerFullScreen: ${playerFullScreen}`}</Text>
                 </View>
             </TouchableOpacity>
         </SafeAreaView>
