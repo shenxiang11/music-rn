@@ -4,6 +4,7 @@ import { Playlist } from '../models/playlist';
 import { Artist } from '../models/singer';
 import pinyin, { STYLE_FIRST_LETTER } from 'pinyin';
 import { Rank } from 'src/models/rank';
+import { SearchResult } from 'src/models/searchResult';
 
 export const playerFullScreenState = atom({
     key: 'playerFullScreen',
@@ -78,5 +79,10 @@ export const azlistDataState = selector<string[]>({
 
 export const ranklistState = atom<Rank[]>({
     key: 'ranklistState',
+    default: [],
+});
+
+export const searchResultsState = atom<SearchResult[]>({
+    key: 'searchResultsState',
     default: [],
 });

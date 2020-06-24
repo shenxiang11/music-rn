@@ -1,11 +1,11 @@
 import React from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import Home from '../home';
 import Recommend from '../Recommend';
 import ViewPagerAdapter from 'react-native-tab-view-viewpager-adapter/src';
 import { StyleSheet } from 'react-native';
 import SingerList from '../SingerList';
 import RankList from '../RankList';
+import Search from '../Search';
 
 export type HomeParamList = {
     recommend: undefined;
@@ -50,7 +50,7 @@ const Tabs = () => {
             <Tab.Screen
                 name="tab4"
                 options={{ title: '搜索' }}
-                component={Home}
+                component={Search}
             />
         </Tab.Navigator>
     );
