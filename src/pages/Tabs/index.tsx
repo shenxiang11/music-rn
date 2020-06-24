@@ -19,6 +19,7 @@ const Tab = createMaterialTopTabNavigator<HomeParamList>();
 const Tabs = () => {
     return (
         <Tab.Navigator
+            swipeEnabled={false}
             lazy
             pager={(props) => (
                 <ViewPagerAdapter style={styles.scene} {...props} />

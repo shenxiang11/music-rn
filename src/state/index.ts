@@ -68,6 +68,14 @@ export const singerlistPageState = selector<ISingerlistPageProp[]>({
     },
 });
 
+export const azlistDataState = selector<string[]>({
+    key: 'azlistDataState',
+    get: ({ get }) => {
+        const singerList = get(singerlistPageState);
+        return singerList.map((item) => item.title[0]);
+    },
+});
+
 export const ranklistState = atom<Rank[]>({
     key: 'ranklistState',
     default: [],
