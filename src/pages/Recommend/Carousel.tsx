@@ -47,7 +47,6 @@ const styles = StyleSheet.create({
     },
     image: {
         flex: 1,
-        backgroundColor: 'red',
     },
     pagination: {
         bottom: 12,

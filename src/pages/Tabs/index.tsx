@@ -4,6 +4,7 @@ import Home from '../home';
 import Recommend from '../Recommend';
 import ViewPagerAdapter from 'react-native-tab-view-viewpager-adapter/src';
 import { StyleSheet } from 'react-native';
+import SingerList from '../SingerList';
 
 export type HomeParamList = {
     recommend: undefined;
@@ -37,7 +38,7 @@ const Tabs = () => {
             <Tab.Screen
                 name="tab2"
                 options={{ title: '歌手' }}
-                component={Home}
+                component={SingerList}
             />
             <Tab.Screen
                 name="tab3"
