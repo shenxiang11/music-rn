@@ -9,7 +9,7 @@ const HotSeach = () => {
     return (
         <View style={styles.wrapper}>
             {searchResults.map((searchResult) => (
-                <View style={styles.item}>
+                <View style={styles.item} key={searchResult.searchWord}>
                     <Text style={styles.text}>{searchResult.searchWord}</Text>
                 </View>
             ))}

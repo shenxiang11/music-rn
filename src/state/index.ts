@@ -86,3 +86,8 @@ export const searchResultsState = atom<SearchResult[]>({
     key: 'searchResultsState',
     default: [],
 });
+
+export const searchHistoriesState = atom<string[]>({
+    key: 'searchHistoriesState',
+    default: [],
+});

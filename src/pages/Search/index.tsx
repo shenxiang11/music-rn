@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, StyleSheet } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Alert } from 'react-native';
 import Icon from '../../components/iconfont';
 import { FlatList } from 'react-native-gesture-handler';
 import ListTitle from './ListTitle';
 import HotSeach from './HotSearch';
 import { useSetRecoilState } from 'recoil';
-import { searchResultsState } from '../../state';
+import { searchResultsState, searchHistoriesState } from '../../state';
 import { SearchResults } from '../../models/searchResult';
 import request from '../../utils/axios';
+import { useRecoilState } from 'recoil';
+import Touchable from '../../components/Touchable';
 
 const Search = () => {
     const [searchText, setSearchText] = useState('');
     const setSearchResults = useSetRecoilState(searchResultsState);
+    const [searchHistories, setSearchHistories] = useRecoilState(
+        searchHistoriesState,
+    );
 
     async function fetchHotResults() {
         const res = await request.get<SearchResults>('/search/hot/detail');
@@ -27,7 +32,7 @@ const Search = () => {
     return (
         <>
             <View style={styles.searchWrapper}>
-                <View style={styles.searchBox}>
+                <Touchable style={styles.searchBox}>
                     <Icon name="Search" size={24} color="#222" />
                     <TextInput
                         clearButtonMode="while-editing"
@@ -38,71 +43,65 @@ const Search = () => {
                         onChange={(e) => {
                             setSearchText(e.nativeEvent.text);
                         }}
+                        onSubmitEditing={(e) => {
+                            const cur = e.nativeEvent.text;
+                            let idx = searchHistories.findIndex(
+                                (item) => item === cur,
+                            );
+                            if (idx >= 0) {
+                                setSearchHistories([
+                                    cur,
+                                    ...searchHistories.filter(
+                                        (item) => item !== cur,
+                                    ),
+                                ]);
+                            } else {
+                                setSearchHistories([cur, ...searchHistories]);
+                            }
+                            setSearchText('');
+                        }}
                     />
-                </View>
+                </Touchable>
             </View>
             <FlatList
                 ListHeaderComponent={() => (
                     <>
                         <ListTitle title="热门搜索" />
                         <HotSeach />
-                        <ListTitle
-                            title="搜索历史"
-                            onClearPress={() => {
-                                console.log(1);
-                            }}
-                        />
+                        {searchHistories.length > 0 && (
+                            <ListTitle
+                                title="搜索历史"
+                                onClearPress={() => {
+                                    Alert.alert(
+                                        '提示',
+                                        '是否清空所有搜索记录',
+                                        [
+                                            {
+                                                text: '取消',
+                                                style: 'cancel',
+                                            },
+                                            {
+                                                text: '确定',
+                                                onPress: () => {
+                                                    setSearchHistories([]);
+                                                    setTimeout(() => {
+                                                        console.log(
+                                                            searchHistories,
+                                                        );
+                                                    }, 3000);
+                                                },
+                                            },
+                                        ],
+                                        { cancelable: false },
+                                    );
+                                }}
+                            />
+                        )}
                     </>
                 )}
-                data={[
-                    1,
-                    2,
-                    3,
-                    4,
-                    5,
-                    6,
-                    7,
-                    9,
-                    9,
-                    1,
-                    2,
-                    3,
-                    4,
-                    5,
-                    6,
-                    7,
-                    9,
-                    9,
-                    1,
-                    2,
-                    3,
-                    4,
-                    5,
-                    6,
-                    7,
-                    9,
-                    9,
-                    1,
-                    2,
-                    3,
-                    4,
-                    5,
-                    6,
-                    7,
-                    9,
-                    9,
-                    1,
-                    2,
-                    3,
-                    4,
-                    5,
-                    6,
-                    7,
-                    9,
-                    9,
-                ]}
+                data={searchHistories}
                 renderItem={({ item }) => (
-                    <View>
+                    <View key={item}>
                         <Text>{item}</Text>
                     </View>
                 )}
