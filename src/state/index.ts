@@ -3,6 +3,7 @@ import { Banner } from '../models/banner';
 import { Playlist } from '../models/playlist';
 import { Artist } from '../models/singer';
 import pinyin, { STYLE_FIRST_LETTER } from 'pinyin';
+import { Rank } from 'src/models/rank';
 
 export const playerFullScreenState = atom({
     key: 'playerFullScreen',
@@ -43,18 +44,19 @@ export const singerlistPageState = selector<ISingerlistPageProp[]>({
         singerList.forEach((singer, idx) => {
             if (idx < 10) {
                 hot.data.push(singer);
-            }
-            const title = pinyin(singer.name[0], {
-                style: STYLE_FIRST_LETTER,
-            })[0][0].toUpperCase();
-            let index = arr.findIndex((item) => item.title === title);
-            if (index >= 0) {
-                arr[index].data.push(singer);
             } else {
-                arr.push({
-                    title,
-                    data: [singer],
-                });
+                const title = pinyin(singer.name[0], {
+                    style: STYLE_FIRST_LETTER,
+                })[0][0].toUpperCase();
+                let index = arr.findIndex((item) => item.title === title);
+                if (index >= 0) {
+                    arr[index].data.push(singer);
+                } else {
+                    arr.push({
+                        title,
+                        data: [singer],
+                    });
+                }
             }
         });
 
@@ -64,4 +66,9 @@ export const singerlistPageState = selector<ISingerlistPageProp[]>({
 
         return [hot, ...arr];
     },
+});
+
+export const ranklistState = atom<Rank[]>({
+    key: 'ranklistState',
+    default: [],
 });
