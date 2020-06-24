@@ -44,4 +44,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ListTitle;
+export default React.memo(ListTitle);
