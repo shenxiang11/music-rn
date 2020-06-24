@@ -1,10 +1,14 @@
 import React from 'react';
-import { StyleSheet, Dimensions, Image, View, Text } from 'react-native';
+import { StyleSheet, Dimensions, Image } from 'react-native';
 import { useRecoilValue } from 'recoil';
 import { bannersState } from '../../state';
 import Swiper from 'react-native-swiper';
+import Touchable from '../../components/Touchable';
+import { useNavigation } from '@react-navigation/native';
+import { RootStackNavigation } from '../../navigator';
 
 const Carousel: React.FC = () => {
+    const navigation = useNavigation<RootStackNavigation>();
     const banners = useRecoilValue(bannersState);
 
     return (
@@ -14,11 +18,18 @@ const Carousel: React.FC = () => {
             activeDotStyle={styles.activeDot}
             dotStyle={styles.dot}>
             {banners.map((banner) => (
-                <Image
-                    key={banner.bannerId}
+                <Touchable
                     style={styles.image}
-                    source={{ uri: banner.pic }}
-                />
+                    key={banner.bannerId}
+                    onPress={() => {
+                        if (banner.url) {
+                            navigation.push('Webview', {
+                                url: banner.url,
+                            });
+                        }
+                    }}>
+                    <Image style={styles.image} source={{ uri: banner.pic }} />
+                </Touchable>
             ))}
         </Swiper>
     );

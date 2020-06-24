@@ -18,6 +18,7 @@ import HeaderTitle from '../components/HeaderTitle';
 import HeaderBackground from '../components/HeaderBackground';
 import HeaderRight from '../components/HeaderRight';
 import Icon from '../components/iconfont';
+import Webview from '../pages/Webview';
 
 /**
  * Stack 式的导航
@@ -25,6 +26,9 @@ import Icon from '../components/iconfont';
 export type RootStackParamList = {
     Tabs: undefined;
     Mine: undefined;
+    Webview: {
+        url: string;
+    };
 };
 const RootStack = createStackNavigator<RootStackParamList>();
 export type RootStackNavigation = StackNavigationProp<RootStackParamList>;
@@ -74,6 +78,13 @@ const RootStackScreen = () => {
                 component={Mine}
                 options={{
                     headerTitle: '我的',
+                }}
+            />
+            <RootStack.Screen
+                name="Webview"
+                component={Webview}
+                options={{
+                    headerTitle: '',
                 }}
             />
         </RootStack.Navigator>
