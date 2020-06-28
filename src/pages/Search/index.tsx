@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, StyleSheet } from 'react-native';
 import Icon from '../../components/iconfont';
 import { FlatList } from 'react-native-gesture-handler';
 import ListTitle from './ListTitle';
 import HotSeach from './HotSearch';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { searchResultsState, searchHistoriesState } from '../../state';
 import { SearchResults } from '../../models/searchResult';
 import request from '../../utils/axios';
-import { useRecoilState } from 'recoil';
 import Touchable from '../../components/Touchable';
 
 const Search = () => {
@@ -72,28 +71,7 @@ const Search = () => {
                             <ListTitle
                                 title="搜索历史"
                                 onClearPress={() => {
-                                    Alert.alert(
-                                        '提示',
-                                        '是否清空所有搜索记录',
-                                        [
-                                            {
-                                                text: '取消',
-                                                style: 'cancel',
-                                            },
-                                            {
-                                                text: '确定',
-                                                onPress: () => {
-                                                    setSearchHistories([]);
-                                                    setTimeout(() => {
-                                                        console.log(
-                                                            searchHistories,
-                                                        );
-                                                    }, 3000);
-                                                },
-                                            },
-                                        ],
-                                        { cancelable: false },
-                                    );
+                                    setSearchHistories([]);
                                 }}
                             />
                         )}
