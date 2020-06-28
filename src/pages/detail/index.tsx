@@ -9,20 +9,19 @@ interface IProps {
 }
 
 const Detail: React.FC<IProps> = () => {
-    const [, setPlayerFullScreen] = useRecoilState<boolean>(
+    const [playerFullScreen, setPlayerFullScreen] = useRecoilState<boolean>(
         playerFullScreenState,
     );
 
     useEffect(() => {
-        setPlayerFullScreen(true);
         return () => {
             setPlayerFullScreen(false);
         };
-    }, [setPlayerFullScreen]);
+    }, []);
 
     return (
         <View>
-            <Text>Detail</Text>
+            <Text>Detail: {`${playerFullScreen}`}</Text>
         </View>
     );
 };

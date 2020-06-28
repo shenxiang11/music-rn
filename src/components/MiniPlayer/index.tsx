@@ -3,7 +3,7 @@ import { View, StyleSheet, Text } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { NavigationContainerRef } from '@react-navigation/native';
 import { playerFullScreenState } from '../../state';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface IProps {
@@ -12,16 +12,21 @@ interface IProps {
 
 const MiniPlayer: React.FC<IProps> = (props) => {
     const { navigationRef } = props;
-    const playerFullScreen = useRecoilValue<boolean>(playerFullScreenState);
+    const [playerFullScreen, setPlayerFullScreen] = useRecoilState<boolean>(
+        playerFullScreenState,
+    );
 
-    return playerFullScreen ? null : (
+    return (
         <SafeAreaView style={styles.wrapper}>
             <TouchableOpacity
                 onPress={() => {
+                    setPlayerFullScreen(true);
                     navigationRef.current?.navigate('Detail');
                 }}>
                 <View style={styles.miniPlayer}>
-                    <Text>{`playerFullScreen: ${playerFullScreen}`}</Text>
+                    <Text>{`playerFullScreen: ${JSON.stringify(
+                        playerFullScreen,
+                    )}`}</Text>
                 </View>
             </TouchableOpacity>
         </SafeAreaView>

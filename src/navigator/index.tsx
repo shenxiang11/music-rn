@@ -13,7 +13,7 @@ import Tabs from '../pages/Tabs';
 import Detail from '../pages/detail';
 import Mine from '../pages/mine';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
-// import MiniPlayer from '../components/MiniPlayer';
+import MiniPlayer from '../components/MiniPlayer';
 import HeaderTitle from '../components/HeaderTitle';
 import HeaderBackground from '../components/HeaderBackground';
 import HeaderRight from '../components/HeaderRight';
@@ -143,7 +143,7 @@ const Navigator: React.FC = () => {
     return (
         <NavigationContainer ref={navigationRef}>
             <ModalStackScreen />
-            {/* <MiniPlayer navigationRef={navigationRef} /> */}
+            <MiniPlayer navigationRef={navigationRef} />
         </NavigationContainer>
     );
 };
