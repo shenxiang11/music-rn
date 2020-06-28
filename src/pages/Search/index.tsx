@@ -16,6 +16,7 @@ const Search = () => {
     const [searchHistories, setSearchHistories] = useRecoilState(
         searchHistoriesState,
     );
+    const searchTextInputRef = React.createRef<TextInput>();
 
     async function fetchHotResults() {
         const res = await request.get<SearchResults>('/search/hot/detail');
@@ -31,9 +32,15 @@ const Search = () => {
     return (
         <>
             <View style={styles.searchWrapper}>
-                <Touchable style={styles.searchBox}>
+                <Touchable
+                    style={styles.searchBox}
+                    onPress={() => {
+                        console.log(searchTextInputRef);
+                        searchTextInputRef?.current?.focus();
+                    }}>
                     <Icon name="Search" size={24} color="#222" />
                     <TextInput
+                        ref={searchTextInputRef}
                         clearButtonMode="while-editing"
                         style={styles.input}
                         value={searchText}
